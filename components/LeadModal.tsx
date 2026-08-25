@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowUpRight, Loader2, MessageCircle, X } from 'lucide-react';
 import { whatsappUrl } from '../lib/content';
 
@@ -16,6 +17,9 @@ export default function LeadModal({ open, message, onClose }: Props) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -24,7 +28,7 @@ export default function LeadModal({ open, message, onClose }: Props) {
     return () => { document.body.style.overflow = previous; };
   }, [open]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -51,7 +55,7 @@ export default function LeadModal({ open, message, onClose }: Props) {
     }
   }
 
-  return (
+  return createPortal(
     <div className="modal-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="lead-modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
         <button className="modal-close" onClick={onClose} aria-label="Fechar"><X size={20}/></button>
@@ -68,6 +72,7 @@ export default function LeadModal({ open, message, onClose }: Props) {
           <button className="modal-submit" disabled={loading}>{loading ? <><Loader2 className="spin" size={18}/> Enviando...</> : <>CONTINUAR PARA O WHATSAPP <ArrowUpRight size={18}/></>}</button>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
