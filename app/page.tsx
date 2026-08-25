@@ -6,12 +6,14 @@ import { IMAGE_URLS, messages } from '../lib/content';
 const plans = [
   {
     name: 'MINHA MOTTU',
+    price: 'R$ 20,00/dia',
     desc: 'Você aluga e no final a moto poderá ser sua.',
     items: ['Plano com duração de 2 ou 3 anos.', 'Você pode escolher entre uma moto 0 km ou usada.', 'A moto poderá ser sua no final do plano.'],
     message: messages.minha,
   },
   {
     name: 'ILIMITADO',
+    price: 'R$ 24,00/dia',
     desc: 'Para trabalhar sem limite de km.',
     items: ['Plano com duração de 1 ano.', 'Kms ilimitados.', 'Melhor custo-benefício para quem roda muito.'],
     message: messages.ilimitado,
@@ -139,6 +141,7 @@ export default function Home() {
               <article className="plan" key={p.name}>
                 <span className="plan-label">PLANO</span>
                 <h3>{p.name}</h3>
+                <span className="plan-price">{p.price}</span>
                 <p className="plan-desc">{p.desc}</p>
                 <ul>{p.items.map((item) => <li key={item}><CheckCircle2/>{item}</li>)}</ul>
                 <CTA message={p.message} showWhatsApp>QUERO ESSE PLANO</CTA>
