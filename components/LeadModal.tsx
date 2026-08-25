@@ -9,6 +9,14 @@ declare global {
   interface Window { fbq?: (...args: any[]) => void; }
 }
 
+function maskPhone(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  if (digits.length <= 2) return digits.replace(/^(\d*)/, '($1');
+  if (digits.length <= 6) return digits.replace(/^(\d{2})(\d*)/, '($1) $2');
+  if (digits.length <= 10) return digits.replace(/^(\d{2})(\d{4})(\d*)/, '($1) $2-$3');
+  return digits.replace(/^(\d{2})(\d{5})(\d*)/, '($1) $2-$3');
+}
+
 type Props = { open: boolean; message: string; onClose: () => void };
 
 export default function LeadModal({ open, message, onClose }: Props) {
@@ -65,7 +73,7 @@ export default function LeadModal({ open, message, onClose }: Props) {
         <p>Informe seus dados. Em seguida, abriremos o WhatsApp com a mensagem de atendimento.</p>
         <form onSubmit={submit}>
           <label>Nome<input required minLength={2} value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" autoComplete="name" /></label>
-          <label>Telefone<input required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(11) 99999-9999" inputMode="tel" autoComplete="tel" /></label>
+          <label>Telefone<input required value={phone} onChange={(e) => setPhone(maskPhone(e.target.value))} placeholder="(11) 99999-9999" inputMode="tel" autoComplete="tel" maxLength={15} /></label>
           <label>E-mail<input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="voce@email.com" autoComplete="email" /></label>
           <p className="modal-privacy">Seus dados serão usados para registrar o contato e permitir o atendimento solicitado.</p>
           {error && <div className="modal-error">{error}</div>}
