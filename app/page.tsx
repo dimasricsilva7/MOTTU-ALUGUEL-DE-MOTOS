@@ -38,8 +38,7 @@ const faq = [
 function Logo() {
   return (
     <a className="logo" href="#inicio" aria-label="Mottu - início">
-      <span className="logo-mark">M</span>
-      <span className="logo-word">mottu</span>
+      <img src="/images/logo.png" alt="Mottu" className="logo-img" />
     </a>
   );
 }
