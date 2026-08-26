@@ -38,7 +38,7 @@ const faq = [
 function Logo() {
   return (
     <a className="logo" href="#inicio" aria-label="Mottu - início">
-      <img src="/images/logo.png" alt="Mottu" className="logo-img" />
+      <img src="/images/logo%20mottu.webp" alt="Mottu" className="logo-img" />
     </a>
   );
 }
